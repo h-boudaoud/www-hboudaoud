@@ -117,8 +117,8 @@ $title = isset($title) ? $title : null;
                     </a>
                 </li>
                 <li><a class="nav-btn" href="/">Acceuil</a></li>
-                <li><a class="nav-btn" href="/#about">A propos</a></li>
-                <li><a class="nav-btn" href="/#contact">Contacte</a></li>
+                <li><a class="nav-btn" href="/about">A propos</a></li>
+                <li><a class="nav-btn" href="/contact">Contacte</a></li>
                 <li><a class="nav-btn" href="/mycv">Mon CV</a></li>
                 <li role="presentation" class="dropdown">
                     <a class="dropdown-toggle nav-btn" data-toggle="dropdown" href="#" role="button"
@@ -206,8 +206,7 @@ $title = isset($title) ? $title : null;
         <div class="<?php echo $message->type; ?>"> <?php echo $message->content; ?></div>
     <?php endif;
     if (isset($include_body)) {
-        include($include_body);
-        //echo $include_body;
+        echo $include_body;
     } else {
         include(__DIR__ . '/index/index.php');
     }
