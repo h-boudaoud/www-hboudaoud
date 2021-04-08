@@ -1,10 +1,9 @@
+# Change the root of the server document to the public folder or use this .htaccess file
 
 DirectoryIndex public/index.php public/index.html
 
 RewriteEngine on
 RewriteBase /
-
-
 
 # Redirect  to public/index.php
 RewriteCond %{THE_REQUEST} /public/([^\s?]*) [NC]
