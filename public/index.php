@@ -59,11 +59,38 @@ $router->Post('contact',
 );
 
 $router->post(
+    '/myProjects/:id-:slug',
+    function($id,$slug){
+        $_ENV['APP_CONTENT'] =  "<h2>Post: Project $id, $slug</h2><pre>".print_r($_POST,true)."</pre>"; },
+    'projectById'
+)->with('id','\d+');
+
+$router->post(
     '/myProjects/:id',
     function($id){
         $_ENV['APP_CONTENT'] =  "<h2>Post: Project $id</h2><pre>".print_r($_POST,true)."</pre>"; },
     'projectById'
 )->with('id','\d+');
+
+
+$router->get(
+    '/myProjects/:id-:slug',
+    function($id,$slug) use ($router) { ;
+        // $_ENV['APP_CONTENT'] ="<p>{$router->url('projectById_get',['id'=>$id])}</p>".
+        $_ENV['APP_CONTENT'] ="<h2>Get Project $id: $slug</h2>".
+            "<p>projectById_Slug, id = $id, slug =$slug</p>".
+            '<form method="post">'.
+            ' <label>Project Name</label>'.
+            '    <input type="text" name="name">'.
+            '    <button type="submit">Envoyer</button>'.
+            '</form>';
+    },
+    'projectById_Slug'
+)->with('id','\d+');
+
+
+
+
 $router->get(
     '/myProjects/:id',
     function($id) use ($router) { ;

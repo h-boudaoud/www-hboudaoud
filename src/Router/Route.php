@@ -30,6 +30,7 @@ class Route{
         if(!preg_match($regex, $url, $matches)){
             return false;
         }
+        array_shift($matches);
         $this->matches = $matches;
         return true;
     }
