@@ -205,8 +205,8 @@ $title = isset($title) ? $title : null;
     <?php if (isset($message->type) && isset($message->content)): ?>
         <div class="<?php echo $message->type; ?>"> <?php echo $message->content; ?></div>
     <?php endif;
-    if (isset($include_body)) {
-        echo $include_body;
+    if (isset($_ENV['APP_CONTENT'])) {
+        echo $_ENV['APP_CONTENT'];
     } else {
         include(__DIR__ . '/index/index.php');
     }
