@@ -4,39 +4,25 @@
 namespace Hboudaoud\Controller;
 
 
-class MyProjectsController
+class MyProjectsController extends AbstractController
 {
     public function index()
     {
-        return "<h2>See all projects</h2>";
+        $projects =[];
+        for ($i = 1; $i <= 10; $i++){
+            $project = (object)['id'=>$i,'slug'=>'slug-num-'.$i];
+            $projects[$i]=$project;
+        }
+        return $this->render('index.php', ['includeFile' => 'index.php', 'projects' => $projects]);
     }
     public function show($id=0,$slug='')
     {
-        return "<h2>See project</h2>".
-            "<div>MyProjectsController -- action show id: $id".
-            (empty($slug)?'':" -- slug : $slug").
-            "<br /><a href='/myProjects/edit/$id".(empty($slug)?'':"-$slug")."'>".
-            "Edit</a>".
-            "</div>";
+        $project = (object)['id'=>$id,'slug'=>$slug];
+        return $this->render('show.php', ['includeFile' => 'index.php', 'project' => $project]);
     }
     public function edit($id=0,$slug='')
     {
-
-        $message= "<h2>edit project</h2>".
-            "<div>MyProjectsController -- action edit id: $id".
-            (empty($slug)?'':" -- slug : $slug").
-            "</div>";
-        if(empty($_POST)){
-            $message .=
-            '<form method="post">'.
-            ' <label>Project name</label>'.
-            '    <input type="text" name="name">'.
-            '    <button type="submit">Envoyer</button>'.
-            '</form>';
-        }else{
-            $message.="<pre>".print_r($_POST,true)."</pre>";
-        }
-
-        return $message;
+        $project = (object)['id'=>$id,'slug'=>$slug];
+        return $this->render('edit.php', ['includeFile' => 'index.php', 'project' => $project]);
     }
 }

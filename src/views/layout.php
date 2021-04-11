@@ -1,5 +1,4 @@
 <?php
-session_start();
 
 // echo '<br /> mode : '.$error;
 
@@ -129,7 +128,7 @@ $title = isset($title) ? $title : null;
                     <ul class="dropdown-menu">
                         <li><a class="nav-btn" href="/myProjects">Liste</a></li>
                         <li><a class="nav-btn" href="/myProjects/1">project 1</a></li>
-                        <li><a class="nav-btn" href="/myProjects/2">project 2</a></li>
+                        <li><a class="nav-btn" href="/myProjects/2-slugTest">project 2</a></li>
                         <li><a class="nav-btn" href="/myProjects/3">project 3</a></li>
                     </ul>
                 </li>

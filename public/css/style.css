@@ -71,12 +71,42 @@ h1 {
     text-shadow: 3px 3px 0 rgba(var(--btn-color), 1), 3px 3px 0 var;
     margin :0;
     padding: 0;
-    background: -webkit-linear-gradient(left, #fff, darkblue, #fff, darkred,  #fff);
+    background-image: -webkit-linear-gradient(left, #f1f1f1, darkblue,  darkblue, #D1D1C6, darkred,  darkred,  #f1f1f1);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     z-index: 1;
 }
 
+.radial-gradient:nth-child(odd){
+    background-image:
+            url('/public/img/banner.png'),
+            radial-gradient(
+                    circle at 100% 100%,
+                    rgba(var(--bg-color), 1),
+                    rgba(var(--bg-color), 1),
+                    rgba(var(--bg-color), .4),
+                    rgba(var(--bg-color), 1),
+                    rgba(var(--bg-color), 1),
+                    rgba(var(--bg-color), 1),
+                    rgba(var(--bg-color), 1)
+            );
+
+}
+
+.radial-gradient:nth-child(even){
+    background-image:
+            url('/public/img/banner.png'),
+            radial-gradient(
+                    circle at 100% 0%,
+                    rgba(var(--bg-color), 1),
+                    rgba(var(--bg-color), 1),
+                    rgba(var(--bg-color), .4),
+                    rgba(var(--bg-color), 1),
+                    rgba(var(--bg-color), 1),
+                    rgba(var(--bg-color), 1),
+                    rgba(var(--bg-color), 1)
+            );
+}
 
 .radial-gradient{
     background-size: contain;
@@ -117,13 +147,13 @@ section.container-fluid {
     font-family: 'Special Elite', cursive;
     padding: 1rem;
     /*background-color: #fff;*/
-    background-color: rgb(250, 250, 235);
     overflow: auto;
     height: 70vh;
     /*max-height: 60%;*/
     max-width: 99%;
     margin: 0 1rem 1rem 1rem;
     color: rgba(var(--text-color),1);
+    background-color: rgb(250, 250, 235);
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
 }
 
@@ -237,7 +267,7 @@ a.btn {
     padding: .5rem 1rem;
 }
 
-div.error, div.success, div.info, div.warning {
+div.error, div.success, div.info, div.warning, div.primary  {
     margin: 1rem;
     font-family: cursive;
     border: 1px solid;
@@ -250,6 +280,12 @@ div.error, div.success, div.info, div.warning {
     color: red;
 }
 
+.primary {
+    border-color: rgba(var(--text-color),1);
+    color: black !important;
+    background-color: rgb(250, 250, 235);
+}
+
 .success {
     border-color: green;
     background-color: rgba(0, 255, 0, .2);
@@ -257,7 +293,7 @@ div.error, div.success, div.info, div.warning {
 }
 .warning {
     border-color: green;
-    background-image: white,rgba(255, 69, 0, .2);
+    background-color: rgba(255, 69, 0, .2);
     color: orangered;
 }
 

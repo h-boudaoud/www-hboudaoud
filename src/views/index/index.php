@@ -1,9 +1,17 @@
+
 <?php
 
+$includeFile=!empty($data["includeFile"])?'/'.$data["includeFile"]:'/_infos.php';
 
-echo
-    "<br />Environment    : {$_SERVER["APP_ENV"]}".
-    "<br />REQUEST_URI   :{$_SERVER["REQUEST_URI"]}".
-    "<br />DOCUMENT_ROOT   :{$_SERVER["DOCUMENT_ROOT"]}".
-    "<br />getcwd    : ".getcwd()
-;
+?>
+
+<div  class="radial-gradient" style="
+    margin:0;
+    padding: 1rem;
+    height: 95%;
+    overflow: auto;
+    "
+>
+    <?php include (__DIR__.$includeFile);?>
+
+</div>

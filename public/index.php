@@ -1,5 +1,7 @@
 <?php
 
+session_start();
+
 use Config\DevCoder\DotEnv;
 use Hboudaoud\Controller\IndexController;
 use HBoudaoud\Router\Router;
@@ -28,8 +30,17 @@ try {
         throw new Exception("The value APP_CONTROLLER is not valid or not define in .env");
     }
     $scanned_directory = array_diff(
+        scandir($controller_directory.'interface/'),
+        array('..', '.')
+    );
+
+    foreach ($scanned_directory as $file) {
+        include_once $controller_directory .'interface/'. $file;
+    }
+
+    $scanned_directory = array_diff(
         scandir($controller_directory),
-        array('..', '.', 'AbstractController.php', 'iController.php')
+        array('..', '.','interface')
     );
     foreach ($scanned_directory as $file) {
         include_once $controller_directory . $file;
