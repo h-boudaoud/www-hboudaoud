@@ -49,19 +49,15 @@ class Router {
         }
         throw new RouterException(
             "<p>Router error : No matching routes : {$this->url}<br>".
-            $_SERVER['REQUEST_METHOD'].
-            "</p><pre>".
-            print_r($this->routes[$_SERVER['REQUEST_METHOD']], 1).
-            "</pre>"
+            $_SERVER['REQUEST_METHOD']."</p>"
         );
     }
 
     public function url($name, $params = []){
         if(!isset($this->namedRoutes[$name])){
             throw new RouterException(
-            "<p>Router error : No route matches this name : {$name}</p><pre>namedRoutes ".
-            print_r($this->namedRoutes[$name], 1).
-            "</pre>");
+            "<p>Router error : No route matches this name : {$name}</p>"
+            );
         }
         return $this->namedRoutes[$name]->getUrl($params);
     }
