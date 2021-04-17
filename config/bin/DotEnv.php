@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Config\DevCoder;
+namespace Hboudaoud\Config\Bin;
 
 
 class DotEnv

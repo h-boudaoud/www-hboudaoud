@@ -4,10 +4,11 @@
 namespace Hboudaoud\Controller;
 
 
+include_once 'interface/iController.php';
 abstract class AbstractController implements iController
 {
 
-    public function __construct(?string $model = null)
+    public function __construct()
     {
     }
 

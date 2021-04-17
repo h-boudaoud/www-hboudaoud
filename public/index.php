@@ -2,12 +2,65 @@
 
 session_start();
 
-use Config\DevCoder\DotEnv;
-use Hboudaoud\Controller\IndexController;
+//
+///***   To debug code     ****/
+//ini_set('display_errors', 1);
+//ini_set('display_startup_errors', 1);
+//ini_set('track_errors' ,1);
+//error_reporting(-1);
+///*************************/
+//
+//
+///***   Router in index.php     ****/
+//// a processing on the rest of the parameters
+//// is to be set up to manage the urls like "/myProjects/22-slug"
+//// if not you must use the url "/myProjects/show/22/slug"
+//$params = explode('/',$_SERVER['REQUEST_URI']);
+//array_shift($params);
+//$controllerName = array_shift($params);
+//$controllerName = !empty($controllerName)?$controllerName:'index';
+//$action = array_shift($params); //index est le controlleur de ton choix si url = /
+//$action = !empty($action)?$action:'index'; //index est l'action de ton choix si url = / ou /toto/
+//echo "controller : $controllerName , action : $action , params:".print_r($params, 1);
+//
+////A modifié selon le chemain vers ton controlleur
+//$controllerPath = $_SERVER['DOCUMENT_ROOT'] . 'src/controllers/'.ucfirst ($controllerName).'Controller.php';
+//
+//echo '<br>controllerPath :'.$controllerPath;
+//if (!file_exists($controllerPath)) {
+//    echo "<br>throw new Exception( ton code si le controlleur n'existe pas)";
+//}else {
+//    $controllerName= 'Hboudaoud\Controller\\' .ucfirst($controllerName).'Controller';
+//    include_once $_SERVER['DOCUMENT_ROOT'] . 'src/controllers/AbstractController.php';
+//    include_once $controllerPath;
+//    $controller = new $controllerName();
+//    if (!method_exists($controller, $action)) {
+//        echo "<br>throw new Exception(  ton code si la methode $action n'existe pas)";
+//
+//    }else {
+//
+//        echo '<br>controllerName ' . $controllerName.'<br>';
+//        // fonction pour executer ta commande
+//        echo call_user_func_array([$controller, $action], $params);
+//    }
+//}
+//die();
+//
+//
+
+
+
+
+use Hboudaoud\Config\Bin\DotEnv;
 use HBoudaoud\Router\Router;
 
-include_once __DIR__ . '/../config/DotEnv.php';
-(new DotEnv(__DIR__ . '/../.env'))->load();
+include_once $_SERVER['DOCUMENT_ROOT'] . 'config/bin/DotEnv.php';
+
+if(!file_exists($_SERVER['DOCUMENT_ROOT']  . '.env')){
+echo 'change or copy the name of the ".env.example" file to ".env"';
+die();
+}
+(new DotEnv($_SERVER['DOCUMENT_ROOT']  . '.env'))->load();
 
 
 $_ENV['APP_CONTENT'] = '';
@@ -17,9 +70,9 @@ $contentError = function ($e) {
 };
 
 // Include router class
-include(__DIR__ . '/../src/Router/Router.php');
-include(__DIR__ . '/../src/Router/RouterException.php');
-include(__DIR__ . '/../src/Router/Route.php');
+include($_SERVER['DOCUMENT_ROOT']  . 'src/Router/Router.php');
+include($_SERVER['DOCUMENT_ROOT']  . 'src/Router/RouterException.php');
+include($_SERVER['DOCUMENT_ROOT']  . 'src/Router/Route.php');
 
 
 //Include Controllers class
@@ -259,4 +312,4 @@ try {
 
 // echo ;
 
-include_once __DIR__ . '/../src/views/layout.php';
+include_once $_SERVER['DOCUMENT_ROOT']  . 'src/views/layout.php';
