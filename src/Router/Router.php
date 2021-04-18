@@ -23,7 +23,7 @@ class Router {
         return $this->add($path, $callable, $name, 'POST');
     }
 
-    private function add($path, $callable, $name, $method): Route
+    public function add($path, $callable, $name, $method): Route
     {
         $route = new Route($path, $callable);
         $this->routes[$method][] = $route;

@@ -4,23 +4,47 @@
 namespace Hboudaoud\Controller;
 
 
+use Exception;
+
 class IndexController extends AbstractController
 {
+    /**
+     * IndexController index
+     * @Route(path="/", name="home", methods=["GET"])
+     * @return  string
+     * @throws Exception
+     */
     public function index(): string
     {
         return $this->render('index.php');
     }
 
+    /**
+     * IndexController about
+     * @Route('/about')
+     * @return  string
+     * @throws Exception
+     */
     public function about(): string
     {
         return $this->render('index.php', ['includeFile' => '_about.php']);
     }
 
-    public function mycv(): string
+    /**
+     * IndexController contact
+     * @Route(path='/mycv', name='mycv', methods=['GET'])
+     */
+    public function mycv(): bool
     {
         return $this->renderRedirectTo('/mycv.html');
     }
 
+    /**
+     * IndexController contact
+     * @Route(path='/contact', name='contact', methods=['GET', 'POST'])
+     * @return  string
+     * @throws Exception
+     */
     public function contact(): string
     {
         $sent = (object)[

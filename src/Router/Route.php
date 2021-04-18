@@ -35,6 +35,7 @@ class Route{
         return true;
     }
 
+
     private function paramMatch($match): string
     {
         if(isset($this->params[$match[1]])){
@@ -60,6 +61,16 @@ class Route{
     {
         $this->params[$param] = str_replace('(', '(?:', $regex);
         return $this; // To use Method Chaining
+    }
+
+    public function withParams($regexParams)
+    {
+        foreach ($regexParams as $key=>$regex) {
+            if(!empty($regex)){
+                $this->with($key, $regex);
+            }
+
+        }
     }
 
 }

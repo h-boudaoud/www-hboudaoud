@@ -29,13 +29,18 @@ abstract class AbstractController implements iController
             '/' . $filename;
         //die($path);
 
+        if(!file_exists($path)){
+            throw new \Exception(sprintf('The view %s does not exist', $filename));
+        }
         ob_start();
         include $path;
         return ob_get_clean();
     }
 
-    protected function renderRedirectTo($filename){
+    protected function renderRedirectTo($filename): bool
+    {
         header('Location: /public'.$filename);
+        return true;
     }
 
 }
