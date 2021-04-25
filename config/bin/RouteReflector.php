@@ -12,6 +12,7 @@ use ReflectionException;
 
 class RouteReflector
 {
+
     /**
      * @var ReflectionClass|null
      */
@@ -186,7 +187,8 @@ class RouteReflector
                 $numargs = func_num_args();
                 $params = [];
                 for ($num=0;$num<$numargs;$num++ ) {
-                    $params[$num] = func_get_arg($num);
+                    $params[$num] = preg_replace('/^-/','',func_get_arg($num));
+                    //echo "<br> params[$num] ".$params[$num];
                 }
                 $_ENV['APP_CONTENT'] .= call_user_func_array([(new $className()), $action],$params);
             },

@@ -1,23 +1,32 @@
 $(document).ready(function () {
-    $('.radial-gradient').each(function( index )
-    {
-        $( this ).find(">div").css( "background-size", "auto "+$(this).height()+"px" );
-        if($(this).height()<$(this).find(">div").height()) {
-            $( this ).css( "display", "block" );
+    $('.radial-gradient').each(function (index) {
+        $(this).find(">div").css("background-size", "auto " + $(this).height() + "px");
+        if ($(this).height() < $(this).find(">div").height()) {
+            $(this).css("display", "block");
         }
     });
-    console.log('radial-gradient : ',$('.radial-gradient').height());
-    console.log('radial-gradient>div : ',$('.radial-gradient>div').height());
-    $('.js_project_languages').each(function (index) {
-        $.ajax($(this).text())
-            .done((data) => {
-                //console.log(Object.keys(data));
-                $(this).html('Languages : ' + Object.keys(data).join(', ') + '.').addClass('primary');
-            }).fail(function (xhr) {
-            $(this).html('Languages : Error ' + xhr.status + '<br />' + xhr.responseText.message).addClass('error');
-            console.log(xhr.status);
-            console.log(xhr.responseText);
 
+    $('.js_project_languages').each(function (index) {
+        const url = $(this).text();
+        var message='';
+        $.ajax(url+'?access_token=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')
+            .done((data) => {
+                message ='Languages : ' + Object.keys(data).join(', ') + '.';
+            }).fail((xhr) =>{
+            console.log(xhr.status, ' xhr.responseText', xhr);
+                message = 'Languages : Error '
+                    + xhr.status + '<br />'
+                    + xhr.responseJSON.message
+                    +'<br /><a href="'+xhr.responseJSON.documentation_url+
+                    '" target="_blank">documentation_url</a>'
+                ;
+            $(this).removeClass('primary')
+                .addClass('error');
+            console.log(xhr.status);
+
+        }).always(()=>{
+            console.log(message);
+            $(this).html(message);
         })
         ;
 
