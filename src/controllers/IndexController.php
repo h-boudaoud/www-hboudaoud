@@ -27,7 +27,13 @@ class IndexController extends AbstractController
      */
     public function about(): string
     {
-        return $this->render('index.php', ['includeFile' => '_about.php']);
+        return $this->render(
+            'index.php',
+            [
+                'includeFile' => '_about.php',
+                'title'=>'A little bit about me'
+            ]
+        );
     }
 
     /**
@@ -90,6 +96,7 @@ class IndexController extends AbstractController
                 'index.php',
                 [
                     'includeFile' => '_contact.php',
+                    'title'=>'Send me a message',
                     'sent' => $sent,
                     'captchaIsHuman' => $captchaIsHuman,
                     'csrfIsValid' => $csrfIsValid
@@ -98,7 +105,14 @@ class IndexController extends AbstractController
 
         }
         $_SESSION['form_csrf'] = md5(uniqid(microtime(), true));
-        return $this->render('index.php', ['includeFile' => '_contact.php', 'sent' => $sent]);
+        return $this->render(
+            'index.php',
+            [
+                'includeFile' => '_contact.php',
+                'title'=>'Send me a message',
+                'sent' => $sent
+            ]
+        );
 
     }
 

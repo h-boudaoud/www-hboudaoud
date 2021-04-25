@@ -1,5 +1,5 @@
-<h2 style="text-align: center;">A little bit about me</h2>
-<div class="primary"  style="margin: 0rem 25% 0rem 1rem">
+
+<div class="primary">
     <p>
         Depuis toujours intéressé par l'informatique, je me suis formé en autodidacte à plusieurs domaines, et deuis j'ai :
     </p>

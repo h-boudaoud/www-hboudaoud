@@ -44,6 +44,7 @@ class DotEnv
 
             if (!array_key_exists($name, $_SERVER) && !array_key_exists($name, $_ENV)) {
                 if($name=='APP_ENV' && !empty($value)){
+                    $value = $this->modeDev($value);
                     switch ($value){
                         case 'dev':
                             ini_set('display_errors', 1);
@@ -59,11 +60,27 @@ class DotEnv
                             break;
                     }
                 }
-                putenv(sprintf('%s=%s', $name, $value));
-                $_ENV[$name] = $value;
-                $_SERVER[$name] = $value;
+
+                if($name=='APP_DEV_IP'){
+                    $values=explode(',',preg_replace('/ /', '',$value));
+                    // putenv(sprintf('%s=', $name),$values);
+                    $_ENV[$name]  = $values;
+                    $_SERVER[$name] = $values;
+                }else {
+                    putenv(sprintf('%s=%s', $name, $value));
+                    $_ENV[$name] = $value;
+                    $_SERVER[$name] = $value;
+                }
             }
         }
+    }
+
+    private function modeDev(string $value): string
+    {
+        if($value!='prod' && !in_array($_SERVER['REMOTE_ADDR'],$_SERVER['APP_DEV_IP']) ){
+            return 'prod';
+        }
+        return $value;
     }
 
 }
