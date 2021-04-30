@@ -2,7 +2,7 @@
 
 // echo '<br /> mode : '.$error;
 
-$title = isset($title) ? $title : (isset($_SERVER['title'])?$_SERVER['title']:null);
+$title = isset($title) ? $title : (isset($_SERVER['title']) && $_SERVER['title']!='Index'?$_SERVER['title']:null);
 
 
 ?>
@@ -34,7 +34,7 @@ $title = isset($title) ? $title : (isset($_SERVER['title'])?$_SERVER['title']:nu
     <!--META HTTP-EQUIV="Refresh" CONTENT="1; URL=#"-->
 
     <title>
-        <?php echo isset($title) ? "Housni BOUDAOUD :" . $title : "Housni BOUDAOUD" ?>
+        <?=  "Housni BOUDAOUD ".(isset($title) ?":" . $title : "") ?>
     </title>
     <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet" />

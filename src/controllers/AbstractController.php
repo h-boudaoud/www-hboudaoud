@@ -20,6 +20,7 @@ abstract class AbstractController implements iController
 
     protected function render($filename, $data = null)
     {
+        $_SERVER['title'] =isset($data['title'])?$data['title']:str_replace(['Hboudaoud\Controller\\','Controller'],'',get_class($this));
         $path = $_SERVER['DOCUMENT_ROOT'] . $_SERVER['APP_VIEW'] .
             lcfirst(str_replace(
                     'Controller', '',

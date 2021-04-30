@@ -77,7 +77,14 @@ h1 {
     text-shadow: 3px 3px 0 rgba(var(--btn-color), 1), 3px 3px 0 var;
     margin :0;
     padding: 0;
-    background-image: -webkit-linear-gradient(left, #f1f1f1, darkblue,  darkblue, #fff, #fff, darkred,  darkred,  #f1f1f1);
+    background-image: -webkit-linear-gradient(
+            left
+            , #f1f1f1
+            , darkblue, darkblue, blue
+            , #fff
+            , red, darkred, darkred
+            ,  #f1f1f1
+    );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     z-index: 1;

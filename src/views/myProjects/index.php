@@ -4,7 +4,7 @@ $message = isset($data['message']) ? $data['message'] : null;
 ?>
 <header class="radial-gradient">
     <div>
-        <h2>My <?= Count($projects) ?> projects</h2>
+        <h2><?= Count($projects) ?> projects published in gitHub</h2>
     </div>
 </header>
 <?php if (isset($message->type) && isset($message->content)): ?>

@@ -33,6 +33,7 @@ class MyProjectsController extends AbstractController
             'index.php',
             [
                 'includeFile' => 'index.php'
+                ,'title'=>'My projects'
                 , 'projects' => $projects
             ]
         );
@@ -61,9 +62,6 @@ class MyProjectsController extends AbstractController
         $projectId = (!empty($project->id) && $project->id==$id) ? $project->id : null;
         if (empty($projectId)) {
             $this->httpResponseCode(404);
-            var_dump("Error 404:<br />No project with id=$id "
-                . (!empty($slug) ? "and name=$slug" : "")
-                . " in https://github.com/h-boudaoud?tab=repositories");
             throw new Exception("Error : no project with id=$id "
                 . (!empty($slug) ? "and name=$slug" : "")
                 . " in https://github.com/h-boudaoud?tab=repositories");
@@ -71,8 +69,9 @@ class MyProjectsController extends AbstractController
         return $this->render(
             'show.php',
             [
-                'includeFile' => 'index.php',
-                'project' => $project
+                'includeFile' => 'index.php'
+                ,'title'=>isset($project->name) ? preg_replace('/[-_]/', ' ', $project->name) : 'See Project'
+                ,'project' => $project
             ]
         );
     }

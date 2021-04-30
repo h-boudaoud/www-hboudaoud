@@ -1,12 +1,13 @@
 <?php
 
-$includeFile = !empty($data["includeFile"]) ? '/' . $data["includeFile"] : '/_infos.php';
-$title = !empty($data["title"]) ? $data["title"] : 'Welcome in my website';
+$includeFile = !empty($data["includeFile"])
+    ? '/' . $data["includeFile"]
+    : '/_infos.php';
 ?>
 
 <header class="radial-gradient">
     <div>
-        <h2><?= ucfirst($title) ?></h2>
+        <h2>Welcome in my website</h2>
     </div>
 </header>
 
