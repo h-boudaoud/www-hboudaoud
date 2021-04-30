@@ -5,6 +5,7 @@ namespace Hboudaoud\Controller;
 
 
 use Exception;
+use RuntimeException;
 
 /**
  * Class MyProjectsController
@@ -28,7 +29,13 @@ class MyProjectsController extends AbstractController
 //            $projects[$i]=$project;
 //        }
         $projects = $this->getProjects('https://api.github.com/users/h-boudaoud/repos');
-        return $this->render('index.php', ['includeFile' => 'index.php', 'projects' => $projects]);
+        return $this->render(
+            'index.php',
+            [
+                'includeFile' => 'index.php'
+                , 'projects' => $projects
+            ]
+        );
     }
 
 
@@ -45,22 +52,27 @@ class MyProjectsController extends AbstractController
     {
 //        $project = (object)['id'=>$id,'slug'=>$slug];
 
-        $message = (object)[];
+        if(empty($slug)){
+            $this->httpResponseCode(404);
+            throw new Exception("Error 404: <br />The project name is not defined");
+        }
+
         $project = $this->getProjects("https://api.github.com/repos/h-boudaoud/$slug");
-        $projectId = isset($project->id) ? $project->id : 0;
-        if (empty($project) || $projectId != $id) {
-            $project = null;
-            $message->type = 'error';
-            $message->content = "Error : no project with id=$id "
+        $projectId = (!empty($project->id) && $project->id==$id) ? $project->id : null;
+        if (empty($projectId)) {
+            $this->httpResponseCode(404);
+            var_dump("Error 404:<br />No project with id=$id "
                 . (!empty($slug) ? "and name=$slug" : "")
-                . " in https://github.com/h-boudaoud?tab=repositories";
+                . " in https://github.com/h-boudaoud?tab=repositories");
+            throw new Exception("Error : no project with id=$id "
+                . (!empty($slug) ? "and name=$slug" : "")
+                . " in https://github.com/h-boudaoud?tab=repositories");
         }
         return $this->render(
             'show.php',
             [
                 'includeFile' => 'index.php',
-                'project' => $project,
-                'message' => $message
+                'project' => $project
             ]
         );
     }
@@ -122,11 +134,17 @@ class MyProjectsController extends AbstractController
 
     private function getProjects(string $url)
     {
+        //In order to avoid systematic downloading of data from the GitHub API,
+        // using a JSON file to save the recovered data is strongly recommended.
+        //
+
         $file = $_SERVER['DOCUMENT_ROOT'] . 'public/data/gitHubRepositories.json';
+        $content = '';
+
         //Last update < 1day
         if (
             file_exists($file) &&
-            filemtime($file) <= 86400
+            time() - filemtime($file) <= 86400
         ) {
             $result = $this->contentsFileToProjects($file, $url);
             if ($result) {
@@ -141,23 +159,61 @@ class MyProjectsController extends AbstractController
                 'header' => [
                     'User-Agent: PHP'
 
-                ]
+                ],
+                "content" => $content,
+                "ignore_errors" => true,
             ]
         ];
         $context = stream_context_create($opts);
-        $content = @file_get_contents(
-            "$url?access_token=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",
+        $response = @file_get_contents(
+            "$url",
             false,
             $context
         );
+
+        $status_line = $http_response_header[0];
+
+        preg_match('{HTTP\/\S*\s(\d{3})}', $status_line, $match);
+
+        $status = $match[1];
+        $response = preg_replace('/ \(But (.*)/', '"}', $response);
+        if ($status !== "200") {
+            $this->httpResponseCode($status);
+            throw new RuntimeException("Error $status<br>Unexpected response status: {$status_line}<br />" . $response);
+        }
+
         //$content = @file_get_contents($url);
-        if ($content && $url == 'https://api.github.com/users/h-boudaoud/repos') {
+        if ($response && $url == 'https://api.github.com/users/h-boudaoud/repos') {
             // delete file
             if (
             file_exists($file)
             ) {
                 unlink($file);
             }
+
+            $data = json_decode($response);
+            foreach ($data as $item) {
+
+                $readMe_url = "https://raw.githubusercontent.com/h-boudaoud/{$item->name}/master/readme.md";
+                $item->readMe = "URL : $readMe_url";
+
+                $content = @file_get_contents(
+                    $readMe_url,
+                    false,
+                    $context
+                );
+                if($content){
+                    $item->readMe = $content;
+                }
+
+                $content = @file_get_contents(
+                    $item->languages_url,
+                    false,
+                    $context
+                );
+                $item->languages = array_keys(get_object_vars(json_decode($content)));
+            }
+            $content = json_encode($data);
             // save data to file
             $pathInfo = pathinfo($file);
             if (!is_dir($pathInfo['dirname'])) {
@@ -166,10 +222,10 @@ class MyProjectsController extends AbstractController
             $f = fopen($file, 'w');
             fwrite($f, $content);
             fclose($f);
-            return json_decode($content);
+            return $data;
         }
 
-        //if github api not working
+        //if url!= 'https://api.github.com/users/h-boudaoud/repos'
 
         return $this->contentsFileToProjects($file, $url);
     }

@@ -2,7 +2,7 @@
 
 // echo '<br /> mode : '.$error;
 
-$title = isset($title) ? $title : null;
+$title = isset($title) ? $title : (isset($_SERVER['title'])?$_SERVER['title']:null);
 
 
 ?>
@@ -59,11 +59,21 @@ $title = isset($title) ? $title : null;
     <![endif]-->
 
     <script>
+        //
+        let bg_image = "--bg-image-"+(location.pathname.split('/')[1]||'index');
+        bg_image = getComputedStyle(document.documentElement).getPropertyValue(bg_image)?bg_image:"--bg-image-other";
+        // console.log(
+        //     "bg_image", bg_image
+        //     ,'\n',getComputedStyle(document.documentElement).getPropertyValue(bg_image)
+        // );
+
+        document.documentElement.style.setProperty("--bg-image", "var("+bg_image+")");
+
         if(!sessionStorage.getItem('bg_color')) {
             sessionStorage.setItem('bg_color', '36,5,116');
         }
         rgb = sessionStorage.getItem('bg_color').split(',');
-        console.log('rgb',rgb[0],rgb[1],rgb[2] )
+        // console.log('rgb',rgb[0],rgb[1],rgb[2] )
         change_document_color(rgb[0],rgb[1],rgb[2])
 
 
@@ -77,11 +87,8 @@ $title = isset($title) ? $title : null;
             document.documentElement.style.setProperty("--bg-color", bg_color);
             document.documentElement.style.setProperty("--btn-color", btn_color);
 
-            console.log('btn_color', btn_color, '\tbg_color', bg_color);
+            // console.log('btn_color', btn_color, '\tbg_color', bg_color);
         }
-        const bg_image = "var(--bg-image-"+(location.pathname.split('/')[1]||'index')+")";
-
-        document.documentElement.style.setProperty("--bg-image", bg_image);
 
     </script>
 
@@ -213,7 +220,7 @@ $title = isset($title) ? $title : null;
 						<span class="small" style="padding: 0rem; background-color: rgb(15,45,49) font-size:.4rem">
 						Color pickers
 						<input
-                                type="color" id="input_color" name="input_color" value="rgb(15,45,49)"
+                                type="color" id="input_color" name="input_color"
                         />
 						</span>
 

@@ -6,31 +6,35 @@ $(document).ready(function () {
         }
     });
 
-    $('.js_project_languages').each(function (index) {
-        const url = $(this).text();
-        var message='';
-        $.ajax(url+'?access_token=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')
-            .done((data) => {
-                message ='Languages : ' + Object.keys(data).join(', ') + '.';
-            }).fail((xhr) =>{
-            console.log(xhr.status, ' xhr.responseText', xhr);
-                message = 'Languages : Error '
-                    + xhr.status + '<br />'
-                    + xhr.responseJSON.message
-                    +'<br /><a href="'+xhr.responseJSON.documentation_url+
-                    '" target="_blank">documentation_url</a>'
-                ;
-            $(this).removeClass('primary')
-                .addClass('error');
-            console.log(xhr.status);
+    // $('.js_project_languages').each(function (index) {
+    //     const url = $(this).text();
+    //     var message='';
+    //     $.ajax(url)
+    //         .done((data) => {
+    //             message ='Languages : ' + Object.keys(data).join(', ') + '.';
+    //         }).fail((xhr) =>{
+    //         console.log(xhr.status, ' xhr.responseText', xhr);
+    //             message = 'Languages : Error '
+    //                 + xhr.status + '<br />'
+    //                 + xhr.responseJSON.message
+    //                 +'<br /><a href="'+xhr.responseJSON.documentation_url+
+    //                 '" target="_blank">documentation_url</a>'
+    //             ;
+    //         $(this).removeClass('primary')
+    //             .addClass('error');
+    //         console.log(xhr.status);
+    //
+    //     }).always(()=>{
+    //         console.log(message);
+    //         $(this).html(message);
+    //     })
+    //     ;
+    // });
 
-        }).always(()=>{
-            console.log(message);
-            $(this).html(message);
-        })
-        ;
+    //This tag is not displayed in the DOM, but can be used in Javascript
+    const projectTag = $('#readme project');
+    console.info('Tag(#readme project) name',projectTag.attr('name'),' : ',projectTag.attr('value'));
 
-    });
     $('#input_color').change(function () {
         const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec($(this).val());
         rgb = result
